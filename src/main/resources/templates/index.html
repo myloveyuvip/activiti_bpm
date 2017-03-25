@@ -1,0 +1,342 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <title>Nubia BPM</title>
+
+    <meta name="description" content=""/>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../res/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet"/>
+    <link href="../res/css/animate.min.css" rel="stylesheet"/>
+    <link href="../res/css/style.min862f.css?v=2.2.0" rel="stylesheet"/>
+    <link href="../res/js/plugins/layer/skin/layer.css" rel="stylesheet"/>
+    <script src="/jquery.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function ChildOpenIframe (url,text) {
+            $("#childValue").attr("href", url).html(text).addClass('J_menuTab')
+            var arr = []
+            $(".J_menuItem").each(function() {
+                arr.push(parseInt($(this).attr("data-index")))
+            })
+            // 数组取最大值
+            var k = Math.max.apply(null, arr)
+            var titleShow = cutTitleText(text,16)
+            $("#childValue").attr("data-index", k+1).attr("title", titleShow)
+
+            var $this = $("#childValue")
+            var o = $this.attr("href"),
+                    m = $this.attr("data-index"),
+                    l = $.trim($this.attr("title")),
+                    k = true;
+            if (o == undefined || $.trim(o).length == 0) {
+                return false
+            }
+
+            function f(l) {
+                var k = 0;
+                $(l).each(function() {
+                    k += $(this).outerWidth(true)
+                });
+                return k
+            }
+
+            function g(n) {
+                var o = f($(n).prevAll()),
+                        q = f($(n).nextAll());
+                var l = f($(".content-tabs").children().not(".J_menuTabs"));
+                var k = $(".content-tabs").outerWidth(true) - l;
+                var p = 0;
+                if ($(".page-tabs-content").outerWidth() < k) {
+                    p = 0
+                } else {
+                    if (q <= (k - $(n).outerWidth(true) - $(n).next().outerWidth(true))) {
+                        if ((k - $(n).next().outerWidth(true)) > q) {
+                            p = o;
+                            var m = n;
+                            while ((p - $(m).outerWidth()) > ($(".page-tabs-content").outerWidth() - k)) {
+                                p -= $(m).prev().outerWidth();
+                                m = $(m).prev()
+                            }
+                        }
+                    } else {
+                        if (o > (k - $(n).outerWidth(true) - $(n).prev().outerWidth(true))) {
+                            p = o - $(n).prev().outerWidth(true)
+                        }
+                    }
+                }
+                $(".page-tabs-content").animate({
+                    marginLeft: 0 - p + "px"
+                }, "fast")
+            }
+
+            $(".J_menuTab").each(function() {
+                if ($(this).attr("data-id") == o) {
+                    if (!$(this).hasClass("active")) {
+                        $(this).addClass("active").siblings(".J_menuTab").removeClass("active");
+                        g(this);
+                        $(".J_mainContent .J_iframe").each(function() {
+                            if ($(this).attr("data-id") == o) {
+                                $(this).show().siblings(".J_iframe").hide();
+                                return false
+                            }
+                        })
+                    }
+                    k = false;
+                    return false
+                }
+            });
+            if (k) {
+                var p = '<a href="javascript:;" class="active J_menuTab" data-id="' + o + '" title="' + text + '">' + l + ' <i class="fa fa-times-circle"></i></a>';
+                $(".J_menuTab").removeClass("active");
+                var n = '<iframe class="J_iframe" name="iframe' + m + '" width="100%" height="100%" src="' + o + '" frameborder="0" data-id="' + o + '" seamless></iframe>';
+                $(".J_mainContent").find("iframe.J_iframe").hide().parents(".J_mainContent").append(n);
+                $(".J_menuTabs .page-tabs-content").append(p);
+                g($(".J_menuTab.active"))
+            }
+            return false
+        }
+        function cutTitleText(text, len){
+            var textCut = text;
+            var strLen = text.length;
+            var cutLen = 0;
+            for(var i=0;i<strLen;i++){
+                cutLen++;
+                if(escape(text.charAt(i)).length > 4){
+                    cutLen++;
+                }
+                if(cutLen >= len){
+                    textCut = text.substring(0,i) + "...";
+                    return textCut;
+                }
+            }
+            return textCut;
+        }
+
+        function closeSubmitIframe(menuTabId){
+            var targetTab;
+            $(".page-tabs-content").children(".J_menuTab").each(function(){
+                if($(this).data("id") == menuTabId){
+                    targetTab = $(this);
+                }
+            });
+            if(!targetTab){
+                return;
+            }
+            var l = targetTab.width();
+            if (targetTab.hasClass("active")) {
+                if (targetTab.next(".J_menuTab").size()) {
+                    var k = targetTab.next(".J_menuTab:eq(0)").data("id");
+                    targetTab.next(".J_menuTab:eq(0)").addClass("active");
+                    $(".J_mainContent .J_iframe").each(function() {
+                        if ($(this).data("id") == k) {
+                            $(this).show().siblings(".J_iframe").hide();
+                            return false
+                        }
+                    });
+                }
+                if (targetTab.prev(".J_menuTab").size()) {
+                    var k = targetTab.prev(".J_menuTab:last").data("id");
+                    targetTab.prev(".J_menuTab:last").addClass("active");
+                    $(".J_mainContent .J_iframe").each(function() {
+                        if ($(this).data("id") == k) {
+                            $(this).show().siblings(".J_iframe").hide();
+                            return false
+                        }
+                    });
+                }
+                targetTab.remove();
+                $(".J_mainContent .J_iframe").each(function() {
+                    if ($(this).data("id") == menuTabId) {
+                        $(this).remove();
+                        return false
+                    }
+                })
+                var n = parseInt($(".page-tabs-content").css("margin-left"));
+                if (n < 0) {
+                    $(".page-tabs-content").animate({
+                        marginLeft: (n + l) + "px"
+                    }, "fast")
+                }
+            } else {
+                targetTab.remove();
+                $(".J_mainContent .J_iframe").each(function() {
+                    if ($(this).data("id") == menuTabId) {
+                        $(this).remove();
+                        return false
+                    }
+                });
+                moveTabs($(".J_menuTab.active"))
+            }
+            return false
+        }
+        function moveTabs(n) {
+            var o = f($(n).prevAll()),
+                    q = f($(n).nextAll());
+            var l = f($(".content-tabs").children().not(".J_menuTabs"));
+            var k = $(".content-tabs").outerWidth(true) - l;
+            var p = 0;
+            if ($(".page-tabs-content").outerWidth() < k) {
+                p = 0
+            } else {
+                if (q <= (k - $(n).outerWidth(true) - $(n).next().outerWidth(true))) {
+                    if ((k - $(n).next().outerWidth(true)) > q) {
+                        p = o;
+                        var m = n;
+                        while ((p - $(m).outerWidth()) > ($(".page-tabs-content").outerWidth() - k)) {
+                            p -= $(m).prev().outerWidth();
+                            m = $(m).prev()
+                        }
+                    }
+                } else {
+                    if (o > (k - $(n).outerWidth(true) - $(n).prev().outerWidth(true))) {
+                        p = o - $(n).prev().outerWidth(true)
+                    }
+                }
+            }
+            $(".page-tabs-content").animate({
+                marginLeft: 0 - p + "px"
+            }, "fast")
+        }
+        /*]]>*/
+    </script>
+    <style>
+        .nav > li > a {
+            padding: 8px 20px 8px 25px;
+            padding-left: 15px;
+        }
+
+        .nav-second-level li a {
+            padding: 7px 15px 7px 10px;
+            padding-left: 40px;
+        }
+
+        .nav-third-level li a {
+            padding-left: 55px;
+        }
+
+        .dropdown-menu.menu-con {
+            left: inherit;
+            right: 0;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<input type="hidden" id="childValue"/>
+<body class="fixed-sidebar full-height-layout gray-bg pace-done" style="overflow:hidden">
+<div id="wrapper">
+    <!-- 全局导航开始 -->
+    <div class="navbar1 global-nav">
+        <div class="container-fluid topbar">
+            <a class="navbar-brand nubia-logo" href="javascript:;"></a>
+            <ul class="nav navbar-nav topbar-left">
+            </ul>
+            <div class="topbar-right navbar-text pull-right">
+                <div class="dropdown">
+                    <a href="#" class="navbar-link" data-toggle="dropdown">
+                        <!--<span th:text=" "></span>-->
+                        ${user.realname }
+                        &nbsp;<i class="fa fa-angle-down"/>
+                    </a>
+                    <ul class="dropdown-menu menu-con" aria-labelledby="dLabel">
+                        <li><a class="J_menuItem navbar-link" href="/rbac/page/user/editMyUser.do">个人资料</a></li>
+                        <li><a class="J_menuItem navbar-link" href="/rbac/editPassword.jsp">密码修改</a></li>
+                        <li><a href="/login/logout.do" class="navbar-link">登出</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--左侧导航开始-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close"><i class="fa fa-times-circle"></i>
+        </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <a class="navbar-minimalize" style="" href="#"><i class="fa fa-align-justify"></i> </a>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-home"></i>
+                        <span class="nav-label">流程管理</span>
+                        <span class="fa arrow"/>
+
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" onclick="ChildOpenIframe('/formKey/page/processList','流程列表')">
+                            流程列表</a></li>
+                    </ul>
+                </li>
+
+                <!--<c:forEach items='${voRmsMenus}' var='voRmsMenu' varStatus='status'>
+                    <li>
+                        <a <c:if test="${voRmsMenu.voRmsMenus.size() > 0}">href="#" id="levelfirst"</c:if>
+                        <c:if test="${voRmsMenu.voRmsMenus.size() == 0}">class="J_menuItem" href="${voRmsMenu.menuHref}"</c:if>>
+                        <i class="${voRmsMenu.menuIcon}"></i>
+                        <span class="nav-label">${voRmsMenu.title}</span>
+                        <c:if test="${voRmsMenu.voRmsMenus.size() > 0}"><span class="fa arrow"></span></c:if>
+                        </a>
+                        <c:if test="${voRmsMenu.voRmsMenus.size() > 0}">
+                            <c:set var="voRmsMenu" value="${voRmsMenu}" scope="request"></c:set>
+                            <c:set var="menuClass" value="nav nav-second-level" scope="request"></c:set>
+                            <c:import url="recursionMenu.jsp"></c:import>
+                        </c:if>
+                    </li>
+                </c:forEach>-->
+            </ul>
+        </div>
+    </nav>
+    <!--左侧导航结束-->
+    <script>
+        setInterval("window.frames['iframe1'].location.reload()", 300000);
+    </script>
+
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+        </div>
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active J_menuTab" data-id="homePage.jsp">首页</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight" style="right:63px"><i class="fa fa-forward"></i>
+            </button>
+            <!--  <div class="btn-group roll-nav roll-right">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                    </li>
+                    <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                    </li>
+                </ul>
+            </div>-->
+            <a href="/login/logout.do" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+            <iframe id="iframe1" name="iframe1" class="J_iframe" width="100%" height="100%" src="/task/page/toDoTask.do"
+                    frameborder="0" data-id="homePage.jsp"></iframe>
+        </div>
+        <div class="footer">
+            <div class="pull-right">&copy; 2014-2016 努比亚 All Rights Reserved</div>
+        </div>
+    </div>
+</div>
+　　
+
+</body>
+</html>

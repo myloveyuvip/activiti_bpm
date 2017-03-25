@@ -1,0 +1,6 @@
+#filter {margin-bottom: 10px; margin-top: 5px}
+#filter ul{overflow: hidden; width: 100%;}
+#filter li{float: left;margin-right:10px;margin-bottom: 5px;}
+#filter input{line-height: 30px;height: 30px;width:182px}
+#filter select{width: 182px;line-height: 30px;height: 30px;padding:0;padding-left:5px}
+#filter span{display:inline-block;vertical-align:middle;width: 80px;text-align: right;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}

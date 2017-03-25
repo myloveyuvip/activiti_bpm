@@ -1,0 +1,106 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>流程列表</title>
+    <link href="/res/css/bootstrap.min.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/res/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/res/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"/>
+    <link href="/res/css/style.min862f.css?v=4.1.0" rel="stylesheet"/>
+    <link href="/res/css/style_tcm.css?v=4.1.0" rel="stylesheet"/>
+    <link href="/res/js/plugins/select2/css/select2.css" rel="stylesheet"/>
+    <link href="/res/css/animate.min.css" rel="stylesheet"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>流程列表</h5>
+                </div>
+
+                <div class="ibox-content store">
+
+                    <!--<form id="form" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-1">测试名称</label>
+                            <div class="col-sm-2">
+                                <input id="testName" name="testName" class="form-control">
+                            </div>
+
+                            <label class="control-label col-sm-1">订单状态</label>
+                            <div class="col-sm-2">
+                                <select id="orderStatus" name="orderStatus" class="form-control"></select>
+                            </div>
+
+                            <label class="control-label col-sm-1">创建时间</label>
+                            <div class="col-sm-3">
+                                <div class="form-inline">
+                                    <div class="input-group">
+                                        <input id="beginCreateTime" readonly=true name="beginCreateTime" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',max:$('#endCreateTime').val()})">
+                                    </div>
+                                    <label>至</label>
+                                    <div class="input-group">
+                                        <input id="endCreateTime" readonly=true name="endCreateTime" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',min:$('#beginCreateTime').val()})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-1">备注</label>
+                            <div class="col-sm-2">
+                                <input id="remark" name="remark" class="form-control">
+                            </div>
+
+                            <label class="control-label col-sm-1"></label>
+                            <div class="col-sm-3">
+                                <div class="form-inline">
+                                    <div class="input-group">
+                                        <input id="beginGmtCreate" readonly=true name="beginGmtCreate" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',max:$('#endGmtCreate').val()})">
+                                    </div>
+                                    <label>至</label>
+                                    <div class="input-group">
+                                        <input id="endGmtCreate" readonly=true name="endGmtCreate" class="form-control layer-date"
+                                               onclick="laydate({format: 'YYYY-MM-DD',min:$('#beginGmtCreate').val()})">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-info" id="query-data-btn">查询</button>
+                                <button type="button" class="btn btn-info" id="reset-btn" style="margin-left:5px">重置</button>
+                                <button type="button" class="btn btn-info" id="export-btn" style="margin-left:5px">导出</button>
+                            </div>
+                        </div>
+                    </form>-->
+                    <table id="table">
+                        <thead>
+                            <th data-field="id">ID</th>
+                            <th data-field="deploymentId">DID</th>
+                            <th data-field="name">名称</th>
+                            <th data-field="key">KEY</th>
+                            <th data-field="version">版本号</th>
+                            <th data-field="resourceName">XML</th>
+                            <th data-field="diagramResourceName">图片</th>
+                            <th>操作</th>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/res/js/require.js"></script>
+<script src="/res/js/require-config.js"></script>
+<script src="/res/js/content.min.js?v=1.0.0"></script>
+<script src="/res/js/plugins/layer/laydate/laydate.js"></script>
+<script src="/res/js/common/common.js"></script>
+<script src="/js/formkey/process-list.js"></script>
+</body>
+</html>

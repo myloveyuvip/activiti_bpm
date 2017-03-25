@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>任务列表-待办事项</title>
+    <link href="/res/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet"/>
+    <link href="/res/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet"/>
+    <link href="/res/css/animate.min.css" rel="stylesheet"/>
+    <link href="/res/css/style.min862f.css?v=4.1.0" rel="stylesheet"/>
+    <style>
+        .cont {
+            overflow: hidden;
+            margin-right: 5px;
+            display: block;
+            float: left;
+            word-break: break-all;
+        }
+
+        .fcont {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 5px;
+        }
+
+        .announce_classic_new {
+            display: inline-block;
+            width: 23px;
+            height: 11px;
+            background: url(/res/img/new.png) no-repeat;
+            margin-top: 3px;
+            margin-left: 3px;
+        }
+
+        .col-sm-6 {
+            width: 65%;
+        }
+
+        .col-sm-5 {
+            width: 35%;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>待办事项</h5>
+                </div>
+                <div class="ibox-content clearfix" name="informations-cateType"
+                     id="informations-cateType" datatype="n" sucmsg=" ">
+                    <li th:each="task:${taskList}">
+                        <h5 style="width: 100%; font-size: 13px; text-align: left;line-height:27px;margin-top: 0px;" class="clearfix">
+                            <a class="fcont" target="_blank" title="${task.name}"
+                               onclick="OpenNewIframe('/announcement/announcementNews.do','${task.name}')"
+                               style="width: 80%; margin-top: 2px; font-size: 13px; text-align: left;
+                            display: inline-block;margin-right: 0px;">${task.name}
+                            <span style="overflow: hidden; text-overflow:ellipsis;white-space:nowrap;width: 20%;display: inline-block;float:right;text-align: right;" >${inforCate.publishTimeShow}</span>
+                            </a>
+                        </h5>
+                    </li>
+                     <!--<c:forEach items="${infCates}" var="inforCate" varStatus="status">
+                      &lt;!&ndash;  href="/announcement/announcementNews.do?params=${inforCate.params}&lastModifytime=${inforCate.lastModifyTime}" &ndash;&gt;
+                         <h5 style="width: 100%; font-size: 13px; text-align: left;line-height:27px;margin-top: 0px;" class="clearfix">
+                             <a class="fcont" target="_blank" title="${inforCate.announcementTitle}"
+                                 onclick="OpenNewIframe('/announcement/announcementNews.do?params=${inforCate.params}&lastModifytime=${inforCate.lastModifyTime}','${inforCate.announcementTitle}')"
+                                 style="width: 80%; margin-top: 2px; font-size: 13px; text-align: left;
+                                 <c:if test="${3 < inforCate.sortNumLevel}">color: red; </c:if>
+                                 display: inline-block;margin-right: 0px;">【${inforCate.announcementTypeMoldCates.typeCateName}】${inforCate.announcementTitle}
+                                 <c:if test="${1 eq inforCate.newSign}"><span class="announce_classic_new" ></span></c:if></a>
+                             <span style="overflow: hidden; text-overflow:ellipsis;white-space:nowrap;width: 20%;display: inline-block;float:right;text-align: right;" >${inforCate.publishTimeShow}</span>
+                         </h5>
+                     </c:forEach>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>服务公告</h5>
+                </div>
+                <div class="ibox-content clearfix" datatype="n" sucmsg=" ">
+                    <!-- <c:forEach items="${announCates}" var="announCate" varStatus="status">
+                     &lt;!&ndash;  href="/announcement/announcementNews.do?params=${announCate.params}&lastModifytime=${announCate.lastModifyTime}" &ndash;&gt;
+                             <h5 style="width: 100%; font-size: 13px; text-align: left;line-height:27px;margin-top: 0px;" class="clearfix">
+                                 <a  class="fcont" target="_blank" title="${announCate.announcementTitle}"
+                                     onclick="OpenNewIframe('/announcement/announcementNews.do?params=${announCate.params}&lastModifytime=${announCate.lastModifyTime}','${announCate.announcementTitleShow}')"
+                                     style="width: 95%; margin-top: 2px; font-size: 13px; text-align: left; display: inline-block;margin-right: 0px;">【${announCate.announcementTypeMoldCates.typeCateName}】${announCate.announcementTitleShow}
+                                     <c:if test="${1 eq announCate.newSign}"><span class="announce_classic_new" ></span></c:if></a>
+                             </h5>
+                     </c:forEach>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/res/js/require.js"></script>
+    　　
+    <script src="/res/js/require-config.js"></script>
+    <script src="/res/js/common/common.js"></script>
+</div>
+</body>
+</html>
